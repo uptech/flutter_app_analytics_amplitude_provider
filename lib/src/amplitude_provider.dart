@@ -27,6 +27,14 @@ class AmplitudeProvider implements AnalyticsProvider {
     );
   }
 
+  Future<void> trackEvents(List<AnalyticsEvent> events) async {
+    final ip = await client.getIpAddress();
+    return await client.trackEvents(
+      apiKey: this.apiKey,
+      events: events.map((e) => _generateJsonEvent(e, ip)).toList(),
+    );
+  }
+
   Map<String, dynamic> _generateJsonEvent(AnalyticsEvent event, String ip) {
     return {
       'user_id': this._amplitudeIdentification?.properties.userId,
