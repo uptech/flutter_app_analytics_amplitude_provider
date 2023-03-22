@@ -2,13 +2,17 @@ import 'package:amplitude_flutter/amplitude.dart';
 import 'package:flutter_app_analytics/flutter_app_analytics.dart';
 
 class AmplitudeProvider implements AnalyticsProvider {
+  @override
+  List<String> allowedUserProperties;
+
   final Amplitude _amplitude = Amplitude.getInstance();
 
-  AmplitudeProvider({
-    required String apiKey,
-    String? userId,
-    bool? trackUserSession,
-  }) {
+  AmplitudeProvider(
+      {required String apiKey,
+      String? userId,
+      bool? trackUserSession,
+      List<String>? allowedProperties})
+      : allowedUserProperties = allowedProperties ?? [] {
     _amplitude.init(apiKey, userId: userId);
     _amplitude.trackingSessionEvents(trackUserSession ?? true);
   }
